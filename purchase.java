@@ -6,14 +6,14 @@ public class purchase{
    public int points;
    public HashMap<String, Double> books = new HashMap<String, Double>();
    
-   public void purchase(String n)
+   public void purchase(books n)
    {
        System.out.println("Total Cost: %d\n", n.getPrice);
        System.out.println("Points: %d, Status: %s", person.getPoints, person.getStatus);
       n.removeBook;
       person.addpoints;
    }
-   public void rpurchase(String n)
+   public void rpurchase(books n)
    {
        int a,b;
        a = n.getprice ;
