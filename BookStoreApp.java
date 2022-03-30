@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bookstoreapp;
 
 import java.io.IOException;
@@ -13,8 +8,6 @@ import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-//import javafx.collections.FXCollections;
-//import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -37,16 +30,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.io.*;
 import java.util.Scanner;
-//import javafx.application.Application;
-//import javafx.event.ActionEvent;
-//import javafx.event.EventHandler;
-//import javafx.scene.Scene;
-//import javafx.scene.control.Button;
-//import javafx.stage.Stage;
-
 /**
  *
- * @author lordr
+ * @author Ryan Chowdhury
  */
 public class BookStoreApp extends Application {
     
@@ -78,22 +64,26 @@ public class BookStoreApp extends Application {
                 if(user.equals("admin") && pass.equals("admin")){
                     ownerWindow(primaryStage);
                     System.out.println("Owner logged in.");
-                }else{
-                    try{
-                        Scanner reader = new Scanner("customers.txt");
+                }else if(!(user.equals("admin"))){
+                    boolean valid = false;
+                    File f = new File("customers.txt");
+                        try{
+                        Scanner reader = new Scanner(f);
                         while (reader.hasNextLine()){
                             String in = reader.nextLine();
                             String[] data = in.split(", ");
-                            if(user.equals(data[0]) && pass.equals(data[1])){
-                                //customerWindow(primaryStage);
-                                System.out.println("Customer logged in.");
-                            }
+                            if(user.equals(data[0]) && pass.equals(data[1])){valid = true;}
                         }
-                    }catch(Exception e){
-                        System.out.println("This customer does not exist.");
+                        if(valid == true){
+                            customerWindow(primaryStage);
+                            System.out.println("Customer logged in.");
+                        }else{
+                            System.out.println("This customer does not exist");
+                            g.add(new Label("Invalid login."), 2, 4, 2, 1);
+                        }
+                    }catch(FileNotFoundException e){
+                        System.out.println("File does not exist!");
                     }
-                    System.out.println("Invalid Login.");
-                    g.add(new Label("Invalid Login."), 2, 4, 2, 1);
                 }
             }
         });
@@ -104,11 +94,14 @@ public class BookStoreApp extends Application {
     }
     
     public void ownerWindow(Stage primaryStage){
-        
+        System.out.println("In the owner scren");
+    }
+    
+    public void customerWindow(Stage primaryStage){
+        System.out.println("In the customer screm");
     }
     
     public static void main(String[] args) {
         launch(args);
-    }
-    
+    } 
 }
