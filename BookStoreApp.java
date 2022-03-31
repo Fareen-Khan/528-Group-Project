@@ -1,7 +1,6 @@
 package bookstoreapp;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -116,7 +115,7 @@ public class BookStoreApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("clicked book button");
-                //ownerBooks(primaryStage);
+                ownerBooks(primaryStage);
             }
         });
         customers.setOnAction(new EventHandler<ActionEvent>() {
@@ -137,7 +136,22 @@ public class BookStoreApp extends Application {
         primaryStage.setScene(owner);
         primaryStage.show();
     }
-    
+    public void ownerBooks(Stage primaryStage){
+        TableView tableView = new TableView();
+        TableColumn<Book, Double> column1 = new TableColumn<>("Book Name");
+        column1.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<Book, Double> column2 = new TableColumn<>("Price");
+        column2.setCellValueFactory(new PropertyValueFactory<>("price"));
+        tableView.getColumns().add(column1);
+        tableView.getColumns().add(column2);
+        tableView.setPlaceholder(new Label("No rows to display"));
+        
+        
+        VBox vbox = new VBox(tableView);
+        Scene scene = new Scene(vbox, 500, 500);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
     public void customerWindow(Stage primaryStage){
         System.out.println("In the customer screm");
     }
