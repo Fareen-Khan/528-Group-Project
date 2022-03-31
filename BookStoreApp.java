@@ -1,4 +1,4 @@
-package bookstoreapp;
+package project;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,12 +30,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.io.*;
 import java.util.Scanner;
+import javafx.scene.Group;
 /**
  *
  * @author Ryan Chowdhury
  */
 public class BookStoreApp extends Application {
-    
+    TableView table = new TableView();
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("BookStoreApp");
@@ -88,36 +89,39 @@ public class BookStoreApp extends Application {
             }
         });
         
+        Button buyPageTemp = new Button("Cart");
+        g.add(buyPageTemp, 4, 3, 2, 1);
+        buyPageTemp.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                checkoutCart(primaryStage,0);
+            }
+        });
+                
+        
         Scene login = new Scene(g, 300, 225);
         primaryStage.setScene(login);
         primaryStage.show();
     }
     
     public void ownerWindow(Stage primaryStage){
-        primaryStage.setTitle("BookStoreApp");
-        GridPane g = new GridPane();
-        g.setAlignment(Pos.TOP_LEFT);
-        g.setHgap(10);
-        g.setVgap(10);
-        g.setPadding(new Insets(20,20,20,20));
-        
-        Text title = new Text("Welcome, Owner!");
-        title.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        g.add(title, 1, 0, 2, 1);
-        
-        Button books = new Button("Books");
-        Button customers = new Button("Customers");
-        Button logout = new Button("Logout");
-        g.add(books, 1, 1, 2, 1);
-        g.add(customers, 1, 2, 2, 1);
-        g.add(logout, 1,3,2,1);
-        Scene owner = new Scene(g, 300, 210);
-        primaryStage.setScene(owner);
-        primaryStage.show();
+        System.out.println("In the owner scren");
     }
     
     public void customerWindow(Stage primaryStage){
         System.out.println("In the customer screm");
+    }
+    
+    public void checkoutCart (Stage primaryStage, double total){
+        System.out.println("In the Cart");
+        TableView table = new TableView();
+        Scene scene = new Scene(new Group());
+        Label label = new Label("Cart");
+        label.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        table.setEditable(true);
+        
+       TableColumn bookNameCol = new TableColumn("Book");
+       TableColumn price = new TableColumn("Price");
     }
     
     public static void main(String[] args) {
