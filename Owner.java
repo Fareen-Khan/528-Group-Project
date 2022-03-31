@@ -6,62 +6,14 @@ import java.io.*;
  * 
  * 
  * 
- * @author Anhr
+ * @author Anhr Al-Eidani
  */
 
 public class Owner{
 
     private String Username;
     private String Password;
-    private String Role;
-    private boolean successfulLogin;
-    
-    public Owner(){
-        Username = "admin";
-        Password = "admin";
-        Role = "owner";
-        
-        successfulLogin = false;
-    }
-    
-    public String getUsername(){
-        return Username;
-    }
-    
-    public String getPassword(){
-        return Password;
-    }
-    
-    public boolean getLoginSucess(){
-        return this.successfulLogin;
-    }
-    
-    /**
-     * 
-     * 
-     * Effects: Checks if Login is possible and set success flag accordingly.
-     * @param username
-     * @param password
-     */
-    public void login(String username, String password){
-        // Validate the username and password.
-        if(this.Username.equals(username) && this.Password.equals(password) && this.Role.equals("owner")){
-            successfulLogin = true;
-        }
-        
-        else{
-            successfulLogin = false;
-        }
-    }
-    
-    /**
-     * 
-     * 
-     * Effects: Sets the login flag to false.
-     */
-    public void logout(){
-        successfulLogin = false;
-    }
+    private String Role;    
     
     /**
      * Adds a customer.
@@ -144,9 +96,9 @@ public class Owner{
         Owner own = new Owner();
         own.addCustomer("Bob", "1234");
         
-        Customer cus = new Customer("Bob", "1234");
+        Customer cus = new Customer("Bob");
         
-        own.deleteCustomer(cus, "Bob");
+        own.deleteCustomer(cus.name, "Bob");
         }
         catch(Exception e){ 
         }
