@@ -94,7 +94,26 @@ public class BookStoreApp extends Application {
     }
     
     public void ownerWindow(Stage primaryStage){
-        System.out.println("In the owner scren");
+        primaryStage.setTitle("BookStoreApp");
+        GridPane g = new GridPane();
+        g.setAlignment(Pos.TOP_LEFT);
+        g.setHgap(10);
+        g.setVgap(10);
+        g.setPadding(new Insets(20,20,20,20));
+        
+        Text title = new Text("Welcome, Owner!");
+        title.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        g.add(title, 1, 0, 2, 1);
+        
+        Button books = new Button("Books");
+        Button customers = new Button("Customers");
+        Button logout = new Button("Logout");
+        g.add(books, 1, 1, 2, 1);
+        g.add(customers, 1, 2, 2, 1);
+        g.add(logout, 1,3,2,1);
+        Scene owner = new Scene(g, 300, 210);
+        primaryStage.setScene(owner);
+        primaryStage.show();
     }
     
     public void customerWindow(Stage primaryStage){
