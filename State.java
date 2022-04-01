@@ -12,4 +12,7 @@ package project;
 public abstract class State {
     public abstract void forward(Customer c);
     public abstract void backward (Customer c);
+    public String getName(){
+        return null;
+    }
 }
