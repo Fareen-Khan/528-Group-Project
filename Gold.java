@@ -10,6 +10,11 @@ package project;
  * @author akfar
  */
 public class Gold extends State {
+    private String name = "Gold";
+    @Override
+    public String getName(){
+        return name;
+    }
     //Does nothing since Gold does not go forward to anything
     @Override
     public void forward(Customer c){
