@@ -10,6 +10,11 @@ package project;
  * @author akfar
  */
 public class Silver extends State {
+    private String name = "Silver";
+    @Override
+    public String getName(){
+        return name;
+    }
     @Override
     public void forward(Customer c){
         c.setState(new Gold());
