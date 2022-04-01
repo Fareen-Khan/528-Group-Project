@@ -4,12 +4,11 @@
  * and open the template in the editor.
  */
 package project;
-
 /**
  *
  * @author akfar
  */
-public class Customer extends Library {
+public class Customer {
     // ---- INSTANCE VARIABLES ----
     //Add Purchase Class as an instance variable
     private String passWord;
@@ -38,10 +37,16 @@ public class Customer extends Library {
     public void backward(){
         myState.backward(this);
     }
-    public State getState(){
-        return myState;
+    public String getState(){
+        return myState.getName();
     }
     public void setState(State s){
         myState = s;
+    }
+    public int getPoints(){
+        return points;
+    }
+    public void setPoints(int p){
+        this.points = p;
     }
 }
