@@ -218,54 +218,7 @@ TextField addTitle, addPrice;
 
     }
 
-    public void managerBooks(Stage primaryStage) {
-
-        TableView tableView = new TableView();
-        TableColumn<Book, Double> column1 = new TableColumn<>("Book Name");
-        column1.setCellValueFactory(new PropertyValueFactory<>("name"));
-        TableColumn<Book, Double> column2 = new TableColumn<>("Price");
-        column2.setCellValueFactory(new PropertyValueFactory<>("price"));
-        tableView.getColumns().add(column1);
-        tableView.getColumns().add(column2);
-        tableView.setPlaceholder(new Label("No rows to display"));
-
-        final Button removeButton = new Button("Delete");
-        final Button addButton = new Button("Add");
-        final Button logoutButton = new Button("Logout");
-        removeButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-            }
-        });
-
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            }
-        });
-        
-        logoutButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                start(primaryStage);
-            }
-        });
-        addTitle = new TextField();
-        addTitle.setPromptText("Book Name");
-        
-        addPrice = new TextField();
-        addPrice.setPromptText("Book Price");
-   
-        
-        
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(tableView,addTitle, addPrice,addButton, removeButton, logoutButton);
-        Scene scene = new Scene(vbox, 500, 500);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-    }
+    
 
     public void managerCustomers(Stage primaryStage) {
 
