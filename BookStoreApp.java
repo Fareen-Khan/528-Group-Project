@@ -191,7 +191,7 @@ public class BookStoreApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    public void customerWindow (Stage primaryStage, double total, Customer a){
+        public void customerWindow (Stage primaryStage, double total, Customer a){
         //Only displays the total amount, points, and status of the customer
         // I can just pass a customer and use the getPrice method but I will need to 
         // import the book selection into a txt file and read it to use as a parameter in the 
