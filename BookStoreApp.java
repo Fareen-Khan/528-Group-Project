@@ -137,17 +137,56 @@ public class BookStoreApp extends Application {
         primaryStage.show();
     }
     public void ownerBooks(Stage primaryStage){
+        
         TableView tableView = new TableView();
+       
         TableColumn<Book, Double> column1 = new TableColumn<>("Book Name");
-        column1.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn<Book, Double> column2 = new TableColumn<>("Price");
+       
+        column1.setCellValueFactory(new PropertyValueFactory<>("name"));
         column2.setCellValueFactory(new PropertyValueFactory<>("price"));
-        tableView.getColumns().add(column1);
-        tableView.getColumns().add(column2);
-        tableView.setPlaceholder(new Label("No rows to display"));
+      
+        tableView.getColumns().addAll(column1, column2);
+        tableView.setItems();
+       
+        final Button removeButton = new Button("Delete");
+        final Button addButton = new Button("Add");
+        final Button backButton = new Button("Back");
         
+        removeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+               
+            }
+        });
+
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String bookN = addTitle.getText();
+                Double bookP = Double.parseDouble(addPrice.getText()); 
+                
+            }
+        });
         
-        VBox vbox = new VBox(tableView);
+        backButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ownerWindow(primaryStage);
+            }
+        });
+        addTitle = new TextField();
+        addPrice = new TextField();
+        addTitle.setPromptText("Book Name");
+        addPrice.setPromptText("Book Price");
+   
+        HBox hbox = new HBox(8);
+        HBox buttons = new HBox(8);
+        buttons.getChildren().addAll(removeButton, backButton);
+        hbox.getChildren().addAll(addTitle, addPrice, addButton);
+        VBox vbox = new VBox(tableView, hbox,buttons);
+        vbox.setPadding(new Insets(20,20,20,20));
+        vbox.setSpacing(10);
         Scene scene = new Scene(vbox, 500, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
