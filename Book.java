@@ -1,6 +1,7 @@
 package bookstoreapp;
 import java.io.*;
 import java.util.Scanner;
+//import java.util.ArrayList;
 /**
  *
  * @author Ryan Chowdhury
@@ -43,19 +44,27 @@ public class Book{
         }    
     }
     public static void removeBook(Book b, File f){
-        try{
-            Scanner reader = new Scanner(f);
-            FileWriter in = new FileWriter("books.txt");
-            while(reader.hasNextLine()){
-                String s = reader.nextLine();
-                String[] data = s.split(", ");
-                if(b.getName().equals(data[0])){
-                    in.write("");
-                }
+        try {File temp = new File("temp.txt");
+            BufferedReader reader = new BufferedReader(new FileReader(f));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
+            String remove = b.toString();
+            String currentLine;
+
+            while((currentLine = reader.readLine()) != null){
+                String s = currentLine.trim();
+                if(s.equals(remove)) continue;  
+                writer.write(currentLine + System.getProperty("line.separator"));
             }
+            
+            writer.close();
             reader.close();
-        }catch(IOException e){
+            boolean success = temp.renameTo(f);
+        } catch (IOException e) {
             System.out.println("An error occured.");
         }
+    }
+    @Override
+    public String toString(){
+        return(this.getName() + ", " + this.getPrice());
     }
 }
