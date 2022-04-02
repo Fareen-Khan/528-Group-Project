@@ -1,5 +1,4 @@
 package bookstoreapp;
-import java.util.ArrayList;
 import java.io.*;
 import java.util.Scanner;
 /**
@@ -9,7 +8,6 @@ import java.util.Scanner;
 public class Book{
     double price;
     String name;
-    public static ArrayList<Book> books = new ArrayList();
     public Book(String bookName, double price){
         this.name = bookName;
         this.price = price;
@@ -20,41 +18,44 @@ public class Book{
     public double getPrice(){
         return this.price;
     }
-    private void addBook(Book b){
+    public static void addBook(Book b, File f){
         boolean contains = false;
-        for(Book x : books){
-            contains = x.getName().equals(b.getName());
+        try{
+            Scanner reader = new Scanner(f);
+            while(reader.hasNextLine()){
+                String s = reader.nextLine();
+                String[] data = s.split(", ");
+                contains = b.getName().equals(data[0]);
+            }
+            reader.close();
+        }catch(FileNotFoundException e){
+            System.out.println("An error occured.");
         }
         if (!contains){
-            books.add(b);
-            try{
-                FileWriter in = new FileWriter("books.txt");
-                in.write(b.getName() + ", " + b.getPrice());
-                in.close();
-            }catch(IOException e){
-                System.out.println("An error occured");
+            try(FileWriter fw = new FileWriter(f, true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter add = new PrintWriter(bw))
+            {
+                add.println(b.getName()+ ", " + b.getPrice());
+            } catch (IOException e) {
+                System.out.println("An error occured.");
             }
         }    
     }
-    private void removeBook(Book b){
-        File f = new File("books.txt");
-        for(Book x : books){
-            if(x.getName().equals(b.getName())){
-                books.remove(b);
-                try{
-                    Scanner reader = new Scanner(f);
-                    FileWriter in = new FileWriter("books.txt");
-                    while(reader.hasNextLine()){
-                        String s = reader.nextLine();
-                        String[] data = s.split(", ");
-                        if(b.getName().equals(data[0])){
-                            in.write("");
-                        }
-                    }
-                }catch(IOException e){
-                    System.out.println("An error occured.");
+    public static void removeBook(Book b, File f){
+        try{
+            Scanner reader = new Scanner(f);
+            FileWriter in = new FileWriter("books.txt");
+            while(reader.hasNextLine()){
+                String s = reader.nextLine();
+                String[] data = s.split(", ");
+                if(b.getName().equals(data[0])){
+                    in.write("");
                 }
             }
-        }   
+            reader.close();
+        }catch(IOException e){
+            System.out.println("An error occured.");
+        }
     }
 }
