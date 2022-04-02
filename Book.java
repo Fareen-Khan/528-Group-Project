@@ -39,12 +39,12 @@ public class Book{
             {
                 add.println(b.getName()+ ", " + b.getPrice());
             } catch (IOException e) {
-                System.out.println("An error occured.");
             }
         }    
     }
-    public static void removeBook(Book b, File f){
-        try {File temp = new File("temp.txt");
+     public static void removeBook(Book b, File f){
+        try {
+            File temp = new File("temp.txt");
             BufferedReader reader = new BufferedReader(new FileReader(f));
             BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
             String remove = b.toString();
@@ -55,12 +55,29 @@ public class Book{
                 if(s.equals(remove)) continue;  
                 writer.write(currentLine + System.getProperty("line.separator"));
             }
-            
             writer.close();
+            
+            FileInputStream inputStream = new FileInputStream(temp);  
+            FileOutputStream outputStream = new FileOutputStream(f);
+            
+            try{
+                int i;
+                while ((i = inputStream.read()) != -1) {
+                    outputStream.write(i);  
+                }
+            }catch(IOException e) {  
+                System.out.println("Error Found: "+e.getMessage());  
+            }  
+            finally {  
+                if (inputStream != null) { 
+                    inputStream.close();
+                }
+                if (outputStream != null) {  
+                    outputStream.close();  
+                } 
+            }
             reader.close();
-            boolean success = temp.renameTo(f);
         } catch (IOException e) {
-            System.out.println("An error occured.");
         }
     }
     @Override
