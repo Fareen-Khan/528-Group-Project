@@ -152,8 +152,94 @@ public class BookStoreApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    public void customerWindow(Stage primaryStage){
-        System.out.println("In the customer screm");
+    public void customerWindow (Stage primaryStage, double total, Customer a){
+        //Only displays the total amount, points, and status of the customer
+        // I can just pass a customer and use the getPrice method but I will need to 
+        // import the book selection into a txt file and read it to use as a parameter in the 
+        // method
+        //need to add list of books they are buying
+        TableView<Book> table = new TableView<>();
+        File myFile = new File("books.txt");
+        
+        TableColumn<Book, Double> column1 = new TableColumn<>("Book Name");
+        column1.setCellValueFactory(new PropertyValueFactory<>("name"));
+        column1.setMinWidth(250);
+        
+        TableColumn<Book, Double> column2 = new TableColumn<>("Price");
+        column2.setCellValueFactory(new PropertyValueFactory<>("price"));
+        column2.setMinWidth(250);
+        
+        GridPane buyPane = new GridPane();
+        //Oberservable Arraylist of all books
+        //read text file of books and put them into an arraylist
+        //read the arraylist for the checkout system
+        ObservableList<Book> books = FXCollections.observableArrayList();
+            try{
+                Scanner readBooks = new Scanner(myFile);
+                while(readBooks.hasNextLine()){
+                    String s = readBooks.nextLine();
+                    String[] data = s.split(", ");
+                    books.add(new Book(data[0], Double.parseDouble(data[1])));
+                }
+            }catch(FileNotFoundException e){
+                System.out.println("File not found.");
+            }
+        table.setItems(books);
+        table.getColumns().addAll(column1, column2);
+
+        table.setPlaceholder(new Label("No rows to display"));
+        Button logout= new Button("Logout");
+        Button buyButton = new Button("Buy");
+        Button rBuyButton = new Button("Redeem and Buy");
+        
+        VBox vbox = new VBox(table);
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(logout, buyButton, rBuyButton);
+        hBox.setPadding(new Insets(35));
+        hBox.setSpacing(10);
+        hBox.setAlignment(Pos.CENTER);
+        vbox.getChildren().addAll(hBox);
+        
+        buyPane.setAlignment(Pos.BOTTOM_CENTER);
+        buyPane.setHgap(10);
+        buyPane.setVgap(10);
+        buyPane.setPadding(new Insets(25, 25, 25, 25));
+       
+        logout.setOnAction((ActionEvent e) -> {
+            start(primaryStage);
+        });
+        
+        buyButton.setOnAction((ActionEvent e)->{
+            // add points and bring to a new screen or display message saying buying was a success
+            //for every $1 CAD you earn 10 points
+            System.out.println("Bought the book");// Should go to a new screen
+            int pointsEarned=0;
+            ObservableList<Book> chosen = table.getSelectionModel().getSelectedItems();
+            double chosenPrice = chosen.get(0).getPrice();
+            String chosenName = chosen.get(0).getName();
+            pointsEarned = (int)chosenPrice*10;
+            System.out.println("Bought " + chosenName + " Earned: " + pointsEarned + " points!");
+            Book.removeBook(chosen.get(0), myFile);
+            table.getItems().remove(chosen.get(0));           
+        });
+        
+        rBuyButton.setOnAction((ActionEvent e)->{
+            // deduct points and bring to a new screen or display message saying buying was a success
+            //100 points per dollar
+            System.out.println("Reddem and Bought the book");
+            int pointsLost=0;
+            ObservableList<Book> chosen = table.getSelectionModel().getSelectedItems();
+            double chosenPrice = chosen.get(0).getPrice();
+            String chosenName = chosen.get(0).getName();
+            pointsLost = (int)chosenPrice*100;
+            System.out.println("Redeem & Bought " + chosenName + " Lost: " + pointsLost + " points!");
+            Book.removeBook(chosen.get(0), myFile);
+            table.getItems().remove(chosen.get(0));
+        });
+
+        Scene scene1 = new Scene(vbox,500,500);
+        primaryStage.setScene(scene1);
+        primaryStage.show();
     }
     
     public static void main(String[] args) {
