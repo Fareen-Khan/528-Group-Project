@@ -138,25 +138,40 @@ public class BookStoreApp extends Application {
     }
     public void ownerBooks(Stage primaryStage){
         
-        TableView tableView = new TableView();
-       
+        File myFile = new File("books.txt");
+        TableView<Book> tableView = new TableView<>();
+
         TableColumn<Book, Double> column1 = new TableColumn<>("Book Name");
         TableColumn<Book, Double> column2 = new TableColumn<>("Price");
-       
+
         column1.setCellValueFactory(new PropertyValueFactory<>("name"));
         column2.setCellValueFactory(new PropertyValueFactory<>("price"));
-      
+
+        ObservableList<Book> books = FXCollections.observableArrayList();
+        try {
+            Scanner a = new Scanner(myFile);
+            while (a.hasNextLine()) {
+                String b = a.nextLine();
+                String[] data = b.split(", ");
+                books.add(new Book(data[0], Double.parseDouble(data[1])));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
+        }
+
         tableView.getColumns().addAll(column1, column2);
-        tableView.setItems();
-       
+        tableView.setItems(books);
+
         final Button removeButton = new Button("Delete");
         final Button addButton = new Button("Add");
         final Button backButton = new Button("Back");
-        
+
         removeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-               
+                ObservableList<Book> c = tableView.getSelectionModel().getSelectedItems();
+                Book.removeBook(c.get(0), myFile);
+                tableView.getItems().remove(c.get(0));
             }
         });
 
@@ -164,11 +179,32 @@ public class BookStoreApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 String bookN = addTitle.getText();
-                Double bookP = Double.parseDouble(addPrice.getText()); 
-                
+                Double bookP = Double.parseDouble(addPrice.getText());
+
+                try (
+                        FileWriter fw = new FileWriter(myFile, true);
+                        BufferedWriter bw = new BufferedWriter(fw);
+                        PrintWriter pw = new PrintWriter(bw)) {
+                        pw.println(bookN + ", " + bookP);
+
+                } catch (IOException e) {
+                }
+                addTitle.clear();
+                addPrice.clear();
+                tableView.getItems().clear();
+                try {
+                    Scanner a = new Scanner(myFile);
+                    while (a.hasNextLine()) {
+                        String b = a.nextLine();
+                        String[] data = b.split(", ");
+                        books.add(new Book(data[0], Double.parseDouble(data[1])));
+                    }
+                } catch (FileNotFoundException e) {
+                    System.out.println("File not found.");
+                }
             }
         });
-        
+
         backButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -179,13 +215,13 @@ public class BookStoreApp extends Application {
         addPrice = new TextField();
         addTitle.setPromptText("Book Name");
         addPrice.setPromptText("Book Price");
-   
+
         HBox hbox = new HBox(8);
         HBox buttons = new HBox(8);
         buttons.getChildren().addAll(removeButton, backButton);
         hbox.getChildren().addAll(addTitle, addPrice, addButton);
-        VBox vbox = new VBox(tableView, hbox,buttons);
-        vbox.setPadding(new Insets(20,20,20,20));
+        VBox vbox = new VBox(tableView, hbox, buttons);
+        vbox.setPadding(new Insets(20, 20, 20, 20));
         vbox.setSpacing(10);
         Scene scene = new Scene(vbox, 500, 500);
         primaryStage.setScene(scene);
