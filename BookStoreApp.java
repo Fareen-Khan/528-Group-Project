@@ -227,6 +227,105 @@ public class BookStoreApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    
+    public void ownerCustomer(Stage primaryStage){
+        
+        TableView<Customer> custTable;
+        Owner owner = new Owner();
+        
+        //Username input
+        TextField addUsername = new TextField();
+        addUsername.setPromptText("Username");
+        addUsername.setMinWidth(100);
+
+        //Password Input
+        TextField addPassword = new TextField();
+        addPassword.setPromptText("Password");
+        addPassword.setMinWidth(80);
+
+        //Points Input
+        TextField addPoints = new TextField();
+        addPoints.setPromptText("Points");
+        addPoints.setMinWidth(40);
+        
+        //Username Column
+        TableColumn<Customer, String> usernameColumn = new TableColumn<>("Username");
+        usernameColumn.setMinWidth(200);
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+
+        //Password Column
+        TableColumn<Customer, String> passwordColumn = new TableColumn<>("Password");
+        passwordColumn.setMinWidth(200);
+        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+
+        //Points Column
+        TableColumn<Customer, String> pointsColumn = new TableColumn<>("Points");
+        pointsColumn.setMinWidth(100);
+        pointsColumn.setCellValueFactory(new PropertyValueFactory<>("points"));
+
+        custTable = new TableView<>();
+        custTable.getColumns().addAll(usernameColumn, passwordColumn, pointsColumn);
+
+        Button delete = new Button("Delete");
+        Button back = new Button("Back");
+        Button add = new Button("Add");
+        add.setOnAction((ActionEvent e) ->{
+            owner.addCustomer(addUsername.getText(),addPassword.getText());
+            addUsername.clear();
+            addPassword.clear();
+            addPoints.clear();
+        });
+        
+        back.setOnAction((ActionEvent e)->{
+            ownerWindow(primaryStage);
+        });
+       
+        delete.setOnAction((ActionEvent e)->{
+            
+            ObservableList<Customer> custSelected;
+            custSelected = custTable.getSelectionModel().getSelectedItems();
+           try {
+                Owner.deleteCustomer(custSelected.get(0));
+            } catch (IOException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           custSelected.forEach(owner.customers::remove);
+           
+        });  
+
+        HBox hBox = new HBox();
+        hBox.setSpacing(10);
+        hBox.getChildren().addAll(addUsername, addPassword, add);
+        
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(custTable, hBox, delete, back);
+        vBox.setPadding(new Insets(35, 35, 35, 35));
+        vBox.setSpacing(10);
+
+        Scene scene = new Scene(vBox);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+           
+        });   
+
+        HBox hBox = new HBox();
+        hBox.setSpacing(10);
+        hBox.getChildren().addAll(addUsername, addPassword, add);
+        
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(custTable, hBox, delete, back);
+        vBox.setPadding(new Insets(35, 35, 35, 35));
+        vBox.setSpacing(10);
+
+        Scene scene = new Scene(vBox);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    
+    
+    
         public void customerWindow (Stage primaryStage, double total, Customer a){
         //Only displays the total amount, points, and status of the customer
         // I can just pass a customer and use the getPrice method but I will need to 
