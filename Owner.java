@@ -68,16 +68,12 @@ public class Owner{
         // Check if the file exists or not.
         
         if(Customer.exists()){
-            // Delete the file
             Customer.delete();
         }
         
         else{
             throw new IllegalArgumentException("");
         }
-        
-        // Delete the object by giving it a null reference
-        //customer = null;
     }
     
     /**
